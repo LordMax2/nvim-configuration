@@ -8,7 +8,6 @@ return {
             "williamboman/mason-lspconfig.nvim",
             "hrsh7th/cmp-nvim-lsp",
 	    "nvim-neotest/nvim-nio",
-	    "jay-babu/mason-nvim-dap.nvim",
             "mfussenegger/nvim-dap",
             "iabdelkareem/csharp.nvim",
         },
@@ -132,7 +131,7 @@ return {
 
     -- Mason DAP
     {
-        "jay-b/mason-nvim-dap",
+        "jay-babu/mason-nvim-dap.nvim",
         dependencies = "mason.nvim",
         config = function()
             require("mason-nvim-dap").setup({
