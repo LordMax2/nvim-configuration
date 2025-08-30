@@ -22,45 +22,16 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     -- You can add more common keymaps here, like for code actions
     -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-
-    -- Attach DAP to this client if it supports debugging
-    if client.name == "omnisharp" then
-        require("csharp.dap").setup()
-        dap.listeners.after.event_initialized["dapui_config"] = function()
-            dapui.open()
-        end
-    end
 end
 
 -- ===================================
 -- Setup Language Servers
 -- ===================================
 
--- HTML LSP
-lspconfig.html.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-    filetypes = { "html", "htmldjango" },
-})
-
 -- Rust Analyzer
 lspconfig.rust_analyzer.setup {
     capabilities = capabilities,
     on_attach = on_attach,
-}
-
--- OmniSharp for C#
--- This is a more robust alternative to csharp_ls
-lspconfig.omnisharp.setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
-    filetypes = { "cs", "vb", ".razor" },
-    root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj", "OmniSharp.json"),
-    -- Example of adding custom settings to OmniSharp
-    -- settings = {
-    --     EnableEditorConfigSupport = true,
-    --     EnableImportCompletion = true,
-    -- },
 }
 
 -- Clangd for C/C++
@@ -69,7 +40,22 @@ lspconfig.clangd.setup {
     on_attach = on_attach,
 }
 
--- ===================================
+-- C#
+vim.lsp.config("roslyn", {
+    on_attach = function()
+        print("This will run when the server attaches!")
+    end,
+    settings = {
+        ["csharp|inlay_hints"] = {
+            csharp_enable_inlay_hints_for_implicit_object_creation = true,
+            csharp_enable_inlay_hints_for_implicit_variable_types = true,
+        },
+        ["csharp|code_lens"] = {
+            dotnet_enable_references_code_lens = true,
+        },
+    },
+})-- ===================================
+
 -- Autocompletion Setup with nvim-cmp
 -- ===================================
 

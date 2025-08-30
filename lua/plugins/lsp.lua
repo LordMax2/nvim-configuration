@@ -9,7 +9,7 @@ return {
             "hrsh7th/cmp-nvim-lsp",
 	    "nvim-neotest/nvim-nio",
             "mfussenegger/nvim-dap",
-            "iabdelkareem/csharp.nvim",
+	    "seblyng/roslyn.nvim"
         },
         config = function()
             local lspconfig = require('lspconfig')
@@ -25,14 +25,6 @@ return {
                 vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
             end
 
-            -- Setup Language Servers
-            -- Each server setup block uses the common on_attach and capabilities
-            lspconfig.html.setup({
-                capabilities = capabilities,
-                on_attach = on_attach,
-                filetypes = { "html", "htmldjango" },
-            })
-
             lspconfig.rust_analyzer.setup {
                 capabilities = capabilities,
                 on_attach = on_attach,
@@ -42,14 +34,6 @@ return {
                         checkOnSave = { command = "clippy" },
                     },
                 },
-            }
-
-            -- OmniSharp for C#, VB, and Razor files
-            lspconfig.omnisharp.setup {
-                capabilities = capabilities,
-                on_attach = on_attach,
-                filetypes = { "cs", "vb", "razor" },
-                root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj", "OmniSharp.json"),
             }
 
             lspconfig.clangd.setup {
@@ -62,7 +46,7 @@ return {
 
             -- Ensure required LSPs are installed
             require("mason-lspconfig").setup({
-                ensure_installed = { "rust_analyzer", "html", "omnisharp", "clangd" },
+                ensure_installed = { "rust_analyzer", "clangd" },
             })
         end,
     },
