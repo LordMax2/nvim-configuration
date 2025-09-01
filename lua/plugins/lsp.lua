@@ -46,7 +46,7 @@ return {
 
             -- Ensure required LSPs are installed
             require("mason-lspconfig").setup({
-                ensure_installed = { "rust_analyzer", "clangd" },
+                ensure_installed = { "rust_analyzer", "clangd", "csharp_ls" },
             })
         end,
     },
